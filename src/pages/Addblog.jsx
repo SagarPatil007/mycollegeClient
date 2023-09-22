@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Spinner from "../Components/Spinner";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { toast } from "react-hot-toast";
 
 const Addblog = () => {
 
@@ -14,18 +15,26 @@ const Addblog = () => {
     const [loading, setLoading] = useState(false);
 
     const createBlog = async (data) => {
-        await fetch('https://mycollegeapi.onrender.com/api/v1/addblog', {
+
+        const res = await fetch('https://mycollegeapi.onrender.com/api/v1/addblog', {
             method: 'POST',
             body: data,
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
         })
-            .then(() => {
-                console.log("blog created Successfully");
-                setLoading(false);
-                navigate("/");
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        
+        .then(() => {
+            setLoading(false);
+            navigate("/");
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+        if(res.success == false){
+            
+        }
     }
 
     const formats = [
@@ -70,11 +79,19 @@ const Addblog = () => {
         data.append("content", content);
         data.append("user", localStorage.getItem("name"));
         data.append("userid", localStorage.getItem("id"))
-        console.log(data);
 
         setLoading(true);
         createBlog(data);
     };
+
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+
+        if(token == null){
+        toast.error("Please Sign In First...");
+        navigate('/signin');
+        }
+    },[])
 
     return (
         <div>

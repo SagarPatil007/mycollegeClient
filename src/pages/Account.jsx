@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Spinner from "../Components/Spinner";
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Account = () => {
+
+    const navigate = useNavigate();
 
     const [data, setdata] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,15 +18,20 @@ const Account = () => {
     const id = localStorage.getItem('id');
 
     const API_URL = ` https://mycollegeapi.onrender.com/api/v1/userinfo/${id}`;
-  
-  async function fetchData() {
+
+    async function fetchData() {
     setLoading(true);
 
     try {
-      const res = await fetch(API_URL);
+      const res = await fetch(API_URL,{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
       const data = await res.json();
       setdata(data.array[0]);
-      console.log(data.array[0]);
     }
     catch (error) {
       console.log(error);
@@ -33,7 +42,12 @@ const Account = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    if(localStorage.getItem('token') == null){
+        toast.error("Please Sign In First...");
+        navigate('/signin');
+    }else{
+        fetchData()
+    }
   }, [])
     
 

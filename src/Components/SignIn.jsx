@@ -2,27 +2,34 @@ import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 function SignIn() {
 
   const navigate = useNavigate();
+
+  var headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+  headers.append('Access-Control-Allow-Origin',"http://localhost:5173");
+
   const Login = async (data) => {
-    const response = await fetch(' https://mycollegeapi.onrender.com/api/v1/login', {
+    const response = await fetch('https://mycollegeapi.onrender.com/api/v1/login', {
       method: 'POST',
       body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+      headers: headers,
+      credentials: 'include',
+    }, { withCredentials: true })
+
       .then((response) => {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
-        localStorage.setItem("id", response.id)
-        localStorage.setItem("name", response.name)
-        localStorage.setItem("token", response.token)
-        console.log("User Login Successfully");
+        localStorage.setItem("id", response.data.id)
+        localStorage.setItem("name", response.data.name)
+        localStorage.setItem("token", response.data.token)
+        toast.success("Login Successfully...");
+
         navigate("/");
       })
       .catch((error) => {
@@ -38,7 +45,6 @@ function SignIn() {
 
   const onSubmit = (data) => {
     Login(data);
-    console.log(data);
   };
 
   return (

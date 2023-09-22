@@ -11,15 +11,10 @@ const Notes = () => {
   async function fetchProductData() {
     setLoading(true);
 
-
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      
-      setPosts(data.array);
-      console.log(data.array);
-     
-      
+      setPosts(data.array);  
     }
     catch (error) {
       console.log("Error aagya ji");

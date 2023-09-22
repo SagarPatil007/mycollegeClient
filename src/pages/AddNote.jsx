@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import {useNavigate} from "react-router-dom"
 import { ArrowRight } from 'lucide-react'
+import { toast } from "react-hot-toast";
 
 const AddNote = () => {
 
@@ -12,7 +13,8 @@ const AddNote = () => {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then(() => {
@@ -32,8 +34,14 @@ const AddNote = () => {
 
   const onSubmit = (data) => {
     createNote(data);
-    console.log(data);
   };
+
+  useEffect(()=>{
+    if(localStorage.getItem('token') == null){
+      toast.error("Please Sign In First...");
+      navigate('/signin');
+    }
+  },[])
 
   return (
     <section>

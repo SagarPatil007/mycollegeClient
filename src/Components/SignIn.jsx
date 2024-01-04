@@ -25,12 +25,16 @@ function SignIn() {
         return response.json();
       })
       .then((response) => {
-        localStorage.setItem("id", response.data.id)
-        localStorage.setItem("name", response.data.name)
-        localStorage.setItem("token", response.data.token)
-        toast.success("Login Successfully...");
-
-        navigate("/");
+       
+        if(response.success == true){
+          localStorage.setItem("id", response.data.id)
+          localStorage.setItem("name", response.data.name)
+          localStorage.setItem("token", response.data.token)
+          toast.success("Login Successfully...");
+          navigate("/");
+        }else if(response.success == false){
+          toast.error("Login Failed ");
+        }
       })
       .catch((error) => {
         console.log(error);

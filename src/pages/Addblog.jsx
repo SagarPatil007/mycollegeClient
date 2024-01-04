@@ -135,7 +135,7 @@ const Addblog = () => {
                                 </div>
 
                                 <div className="flex p-1">
-                                    <button role="submit" className="p-3 bg-blue-500 mt-7 text-white hover:bg-blue-400" required>Submit</button>
+                                    <button role="      " className="p-3 bg-blue-500 mt-7 text-white hover:bg-blue-400" required>Submit</button>
                                 </div>
                             </form>
                         </div>

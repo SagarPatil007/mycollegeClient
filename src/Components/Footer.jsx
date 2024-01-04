@@ -15,7 +15,7 @@ function Footer() {
                 <span className="ml-4 text-lg font-bold">MyCollege</span>
               </div>
               <div>
-                <p className="mb-4  text-base font-medium">The Tailwind CSS Component library</p>
+                <p className="mb-4  text-base font-medium">MyCollege.com</p>
                 <p className="text-sm text-gray-600">
                   &copy; Copyright 2022. All Rights Reserved by DevUI.
                 </p>
